@@ -35,8 +35,8 @@ RUN pip3 install numpy sympy graphviz pandas
 
 
 ### ====== Abseil Installation: Protobuf Dependency ======
-## Download Abseil 20240722.0 (Latest LTS as of 10/31/2024)
-ARG ABSL_VER=20240722.0
+## Download Abseil 20250127.1 (Latest LTS as of 05/04/2025)
+ARG ABSL_VER=20250127.1
 
 # Download source
 WORKDIR /opt
@@ -47,7 +47,7 @@ RUN rm abseil-cpp-${ABSL_VER}.tar.gz
 ## Compile Abseil
 WORKDIR /opt/abseil-cpp-${ABSL_VER}/build
 RUN cmake .. \
-    -DCMAKE_CXX_STANDARD=14 \
+    -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="/opt/abseil-cpp-${ABSL_VER}/install"
 RUN cmake --build . --target install --config Release --parallel $(nproc)
@@ -56,8 +56,8 @@ ENV absl_DIR="/opt/abseil-cpp-${ABSL_VER}/install"
 
 
 ### ============= Protobuf Installation ==================
-## Download Protobuf 29.0 (=v5.29.0, latest stable version as of Feb/01/2025)
-ARG PROTOBUF_VER=29.0
+## Download Protobuf 30.2 (=v6.30.2, latest stable version as of May/04/2025)
+ARG PROTOBUF_VER=30.2
 
 # Download source
 WORKDIR /opt
@@ -68,7 +68,7 @@ RUN rm protobuf-${PROTOBUF_VER}.tar.gz
 ## Compile Protobuf
 WORKDIR /opt/protobuf-${PROTOBUF_VER}/build
 RUN cmake .. \
-    -DCMAKE_CXX_STANDARD=14 \
+    -DCMAKE_CXX_STANDARD=17 \
     -DCMAKE_BUILD_TYPE=Release \
     -Dprotobuf_BUILD_TESTS=OFF \
     -Dprotobuf_ABSL_PROVIDER=package \
@@ -78,12 +78,11 @@ ENV PATH="/opt/protobuf-${PROTOBUF_VER}/install/bin:$PATH"
 ENV protobuf_DIR="/opt/protobuf-${PROTOBUF_VER}/install"
 
 # Also, install Python protobuf package
-RUN pip3 install protobuf==5.${PROTOBUF_VER}
+RUN pip3 install protobuf==6.${PROTOBUF_VER}
 
 # Set the environment variable
 ENV PROTOBUF_FROM_SOURCE=True
 ### ======================================================
-
 
 ### ================== Finalize ==========================
 ## Move to the application directory
