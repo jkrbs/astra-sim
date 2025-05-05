@@ -18,3 +18,31 @@ We appreciate your interest and support in ASTRA-sim!
 For any questions about using ASTRA-sim, you can email the ASTRA-sim User Mailing List: astrasim-users@googlegroups.com
 
 To join the mailing list, please fill out the following form: https://forms.gle/18KVS99SG3k9CGXm6
+
+## Build Instructions
+
+1. Clone repository and build docker image
+```sh
+git clone --recursive https://github.com/jkrbs/astra-sim.git
+docker build -t astra-sim
+```
+
+2. Enter docker container 
+```sh
+docker run -ti -v .:/app/astra-sim astra-sim bash
+```
+
+
+3. Install Chakra inside docker container and generate traces
+```sh
+cd extern/graph_frontend/chakra/
+pip3 install .
+chakra_generator
+```
+
+4. Use astra-sim
+```sh
+cd examples/network_analytical/
+./run_network_analytical.sh
+```
+
