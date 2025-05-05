@@ -32,7 +32,6 @@ docker build -t astra-sim
 docker run -ti -v .:/app/astra-sim astra-sim bash
 ```
 
-
 3. Install Chakra inside docker container and generate traces
 ```sh
 cd extern/graph_frontend/chakra/
@@ -40,7 +39,14 @@ pip3 install .
 chakra_generator
 ```
 
-4. Use astra-sim
+4. Build and install astra-sim inside the container
+```sh
+mkdir /app/lib
+cmake .
+make -j install
+```
+
+5. Use astra-sim inside the container
 ```sh
 cd examples/network_analytical/
 ./run_network_analytical.sh
